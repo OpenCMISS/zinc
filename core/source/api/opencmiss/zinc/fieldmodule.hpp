@@ -80,10 +80,12 @@ class FieldElementGroup;
 class FieldNodeGroup;
 class FieldTimeLookup;
 class FieldTimeValue;
+#if defined (ZINC_USE_ITK)
 class FieldDerivative;
 class FieldCurl;
 class FieldDivergence;
 class FieldGradient;
+#endif
 class FieldSin;
 class FieldCos;
 class FieldTan;
@@ -376,6 +378,7 @@ public:
 
 	inline FieldTimeValue createFieldTimeValue(const Timekeeper& timeKeeper);
 
+#if defined (ZINC_USE_ITK)
 	inline FieldDerivative createFieldDerivative(const Field& sourceField, int xi_index);
 
 	inline FieldCurl createFieldCurl(const Field& vectorField, const Field& coordinateField);
@@ -383,7 +386,7 @@ public:
 	inline FieldDivergence createFieldDivergence(const Field& vectorField, const Field& coordinateField);
 
 	inline FieldGradient createFieldGradient(const Field& sourceField, const Field& coordinateField);
-
+#endif
 	inline FieldSin createFieldSin(const Field& sourceField);
 
 	inline FieldCos createFieldCos(const Field& sourceField);

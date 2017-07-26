@@ -18,6 +18,7 @@ namespace OpenCMISS
 namespace Zinc
 {
 
+#if defined (ZINC_USE_ITK)
 class FieldDerivative : public Field
 {
 private:
@@ -102,6 +103,7 @@ inline FieldGradient Fieldmodule::createFieldGradient(const Field& sourceField, 
 	return FieldGradient(cmzn_fieldmodule_create_field_gradient(id, sourceField.getId(),
 		coordinateField.getId()));
 }
+#endif
 
 }  // namespace Zinc
 }

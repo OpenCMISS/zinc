@@ -1329,6 +1329,7 @@ TEST(ZincNodetemplate, define_undefineField)
 	EXPECT_EQ(ERROR_NOT_FOUND, nodetemplate5.setValueNumberOfVersions(feField, -1, Node::VALUE_LABEL_VALUE, 1));
 }
 
+#if defined (ZINC_USE_ITK)
 // Issue 50: Find mesh location was caching wrong xi between fieldmodule begin/end change
 // Also, convergence was difficult for far away points with high curvature elements.
 // This test loads a curved heart surface mesh and finds nearest xi to 4 quite distant points.
@@ -1457,3 +1458,4 @@ TEST(ZincFieldFindMeshLocation, issue_50_find_xi_cache_and_convergence)
 
 	zinc.fm.endChange();
 }
+#endif

@@ -178,6 +178,7 @@ TEST(ZincOptimisation, tricubicFit)
 
 	const double alphaValue = 0.2;
 	Field alpha = zinc.fm.createFieldConstant(1, &alphaValue);
+#if defined (ZINC_USE_ITK)
 	Field displacementGradient = zinc.fm.createFieldGradient(displacement, referenceCoordinates);
 
 	Field F = zinc.fm.createFieldGradient(coordinates, referenceCoordinates);
@@ -254,4 +255,5 @@ TEST(ZincOptimisation, tricubicFit)
 	EXPECT_NEAR(expectedVolumeValue, volumeValue, tolerance);
 
 	cmzn_deallocate(solutionReport);
+#endif
 }

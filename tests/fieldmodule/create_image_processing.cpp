@@ -30,6 +30,7 @@
 #include "zinctestsetupcpp.hpp"
 #include "test_resources.h"
 
+#if defined (ZINC_USE_ITK)
 TEST(cmzn_fieldmodule_create_field_imagefilter_connected_threshold, invalid_args)
 {
 	const double values[] = { 0.3, 0.1, 0.7 };
@@ -209,3 +210,4 @@ TEST(ZincFieldImagefilterThreshold, api)
 	EXPECT_EQ(CMZN_OK, result = th.setUpperThreshold(0.8));
 	ASSERT_DOUBLE_EQ(0.8, value = th.getUpperThreshold());
 }
+#endif

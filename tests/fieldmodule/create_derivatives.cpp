@@ -32,6 +32,7 @@
 
 #include "zinctestsetup.hpp"
 
+#if defined (ZINC_USE_ITK)
 TEST(cmzn_fieldmodule_create_field_derivative, invalid_args)
 {
 	cmzn_context_id context = cmzn_context_create("test");
@@ -500,3 +501,4 @@ TEST(ZincField, issue_3812_grid_derivatives_non_first_component)
 	for (int i = 0; i < 4; ++i)
 		ASSERT_DOUBLE_EQ(expected_dx_dxi3[i], dx_dxi3[i]);
 }
+#endif

@@ -199,13 +199,19 @@ OpenCMISS::Zinc::Field importGenericTwoSourcesField(enum cmzn_field_type type,
 				field = fieldmodule.createFieldVectorCoordinateTransformation(sourcefields[0], sourcefields[1]);
 				break;
 			case CMZN_FIELD_TYPE_CURL:
+#if defined (ZINC_USE_ITK)
 				field = fieldmodule.createFieldCurl(sourcefields[0], sourcefields[1]);
+#endif
 				break;
 			case CMZN_FIELD_TYPE_DIVERGENCE:
+#if defined (ZINC_USE_ITK)
 				field = fieldmodule.createFieldDivergence(sourcefields[0], sourcefields[1]);
+#endif
 				break;
 			case CMZN_FIELD_TYPE_GRADIENT:
+#if defined (ZINC_USE_ITK)
 				field = fieldmodule.createFieldGradient(sourcefields[0], sourcefields[1]);
+#endif
 				break;
 			case CMZN_FIELD_TYPE_FIBRE_AXES:
 				field = fieldmodule.createFieldFibreAxes(sourcefields[0], sourcefields[1]);
@@ -383,8 +389,10 @@ OpenCMISS::Zinc::Field importDerivativeField(enum cmzn_field_type type,
 					unsigned int size = typeSettings["XiIndexes"].size();
 					if (size > 0)
 					{
+#if defined (ZINC_USE_ITK)
 						field = fieldmodule.createFieldDerivative(sourcefields[0],
 							typeSettings["XiIndexes"][0].asInt());
+#endif
 					}
 				}
 			} break;
@@ -746,7 +754,11 @@ void FieldJsonIO::exportTypeSpecificParameters(Json::Value &fieldSettings)
 		} break;
 		case CMZN_FIELD_TYPE_DERIVATIVE:
 		{
+#if defined (ZINC_USE_ITK)
 			int xi_index = cmzn_field_derivative_get_xi_index(field.getId());
+#else
+			int xi_index = -1;
+#endif
 			typeSettings["XiIndexes"].append(xi_index);
 		} break;
 		case CMZN_FIELD_TYPE_IS_ON_FACE:

@@ -370,12 +370,13 @@ TEST(fieldmodule_description, write)
 	cmzn_field_set_managed(sumComponentField, true);
 	cmzn_field_set_name(sumComponentField, "sumComponent");
 
+#if defined (ZINC_USE_ITK)
 	cmzn_field_id derivativeField = cmzn_fieldmodule_create_field_derivative(fieldmodule,
 		coordinatesField, 1);
 	EXPECT_NE(static_cast<cmzn_field *>(0), derivativeField);
 	cmzn_field_set_managed(derivativeField, true);
 	cmzn_field_set_name(derivativeField, "derivative");
-
+#endif
 	cmzn_field_id coordinateTransformationField =
 		cmzn_fieldmodule_create_field_coordinate_transformation(
 			fieldmodule, coordinatesField);
@@ -509,7 +510,9 @@ TEST(fieldmodule_description, write)
 	cmzn_field_destroy(&determinantField);
 	cmzn_field_destroy(&matrixField);
 	cmzn_field_destroy(&coordinateTransformationField);
+#if defined (ZINC_USE_ITK)
 	cmzn_field_destroy(&derivativeField);
+#endif
 	cmzn_field_destroy(&sumComponentField);
 	cmzn_field_destroy(&edgeDiscontinuityField);
 	cmzn_field_destroy(&andField);

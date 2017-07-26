@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.0)
 project(Zinc VERSION 3.1.1 LANGUAGES C CXX)
 
 option(ZINC_BUILD_TESTS "${PROJECT_NAME} - Build tests." ON)
-option(ZINC_BUILD_BINDINGS "Build bindings for ${PROJECT_NAME}, requires SWIG." YES)
+option(ZINC_BUILD_BINDINGS "Build bindings for ${PROJECT_NAME}, requires SWIG." NO)
 option(ZINC_BUILD_SHARED_LIBRARY "Build a shared zinc library." ON)
 option(ZINC_BUILD_STATIC_LIBRARY "Build a static zinc library." OFF)
 option(ZINC_PRINT_CONFIG_SUMMARY "Show a summary of the configuration." TRUE)

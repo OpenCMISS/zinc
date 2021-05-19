@@ -407,7 +407,7 @@ Remove the reference to the manager from the object \
    USE_PARAMETER(dummy_user_data); \
 	if (object) \
 	{ \
-		object->object_manager = (struct MANAGER(object_type) *)NULL; \
+	object->object_manager = (struct MANAGER(object_type) *)NULL; \
 		return_code = 1; \
 	} \
 	else \
@@ -482,11 +482,13 @@ PROTOTYPE_DESTROY_MANAGER_FUNCTION(object_type) \
 			display_message(ERROR_MESSAGE, "DESTROY(MANAGER(" #object_type \
 				")).  manager->cache = %d != 0", manager->cache); \
 		} \
-		DESTROY_LIST(object_type)(&(manager->changed_object_list)); \
-		DESTROY_LIST(object_type)(&(manager->removed_object_list)); \
-		/* remove the manager_pointer from each object */ \
+		++manager->cache; /* guarantee no further messages sent */ \
+		/* remove the manager pointer from each object */ \
 		FOR_EACH_OBJECT_IN_LIST(object_type)(OBJECT_CLEAR_MANAGER(object_type), \
 			(void *)NULL, manager->object_list); \
+		/* destroy the changed and removed object lists */ \
+		DESTROY_LIST(object_type)(&(manager->changed_object_list)); \
+		DESTROY_LIST(object_type)(&(manager->removed_object_list)); \
 		/* destroy the list of objects in the manager */ \
 		DESTROY_LIST(object_type)(&(manager->object_list)); \
 		/* destroy the callback list after the list of objects \ 

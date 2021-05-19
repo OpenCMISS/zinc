@@ -37,8 +37,6 @@ cmzn_context::cmzn_context(const char *idIn) :
 
 cmzn_context::~cmzn_context()
 {
-	if (this->id)
-		DEALLOCATE(this->id);
 	if (this->defaultRegion)
 		cmzn_region::deaccess(this->defaultRegion);
 	// clear regions' fields and pointers to this context
@@ -62,6 +60,8 @@ cmzn_context::~cmzn_context()
 		on.  When MEMORY_CHECKING is off this function does nothing */
 	list_memory(/*count_number*/0, /*show_pointers*/0, /*increment_counter*/0,
 		/*show_structures*/1);
+	if (this->id)
+		DEALLOCATE(this->id);
 }
 
 cmzn_context *cmzn_context::create(const char *id)

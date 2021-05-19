@@ -106,7 +106,11 @@ if( ZINC_BUILD_SHARED_LIBRARY )
     list( APPEND ZINC_SHARED_DEFINITIONS -DZINC_SHARED_OBJECT )
     set( ZINC_SHARED_DEFINITIONS ${ZINC_SHARED_DEFINITIONS} PARENT_SCOPE )
     target_link_libraries(${ZINC_LIBRARY_NAME} PRIVATE ${DEPENDENT_LIBS})
-    target_include_directories(${ZINC_SHARED_TARGET} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+    target_include_directories(${ZINC_SHARED_TARGET}
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/source/api>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/source/api>
+        $<INSTALL_INTERFACE:include/>
+        PRIVATE ${FREETYPE_INCLUDE_DIRS})
     if (CMAKE_VERSION VERSION_EQUAL "3.5.1" AND CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
         # No target compile features in this setting.
         target_compile_options(${ZINC_SHARED_TARGET} PRIVATE -std=c++11)

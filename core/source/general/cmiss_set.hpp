@@ -180,12 +180,15 @@ public:
 
 	void clear()
 	{
-		for (iterator iter = begin(); iter != end(); ++iter)
+		// pessimistically avoid iterating over list in case removing one object causes the
+		// list to be modified e.g. dependent fields also removed
+		iterator iter;
+		while ((iter = this->begin()) != this->end())
 		{
-			Key tmp = *iter;
-			tmp->deaccess(&tmp);
+			Key object = *iter;
+			Base_class::erase(iter);
+			object->deaccess(&object);
 		}
-		Base_class::clear();
 	}
 
 	size_type size() const

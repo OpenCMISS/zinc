@@ -12,7 +12,7 @@ if (CMAKE_CONFIGURATION_TYPES)
     set(CFG_INSTALL_DIR /\${CMAKE_INSTALL_CONFIG_NAME})
 endif ()
 # Bindings options
-set(ZINC_VIRTUALENV_INSTALL_PREFIX "${ZINC_VIRTUALENV_INSTALL_PREFIX}" CACHE PATH "Install prefix for the virtualenv Zinc library.")
+set(ZINC_VIRTUALENV_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/virtual_envs" CACHE PATH "Install prefix for the virtualenv Zinc library.")
 
 if (NOT DEFINED ZINC_USE_VIRTUALENV)
     set(ZINC_USE_VIRTUALENV TRUE)
@@ -21,7 +21,7 @@ set(ZINC_USE_VIRTUALENV ${ZINC_USE_VIRTUALENV} CACHE BOOL "Install Zinc into vir
 
 if (NOT EXISTS "${VIRTUALENV_EXEC}")
     set(ZINC_USE_VIRTUALENV FALSE CACHE BOOL "Install Zinc into virtual environment." FORCE)
-    message(STATUS "The program virtualenv was not found disabling it's use.")
+    message(STATUS "The program virtualenv was not found disabling its use.")
 endif ()
 
 # Create Python bindings for the Zinc library.
@@ -30,7 +30,6 @@ set(ZINC_PYTHON_PREFERRED_VERSION "" CACHE STRING "Identify your preferred versi
 # SWIG has already been found at this point.
 include(${SWIG_USE_FILE})
 
-findpython_clear_cache_variables()
 find_package(Python ${ZINC_PYTHON_PREFERRED_VERSION} COMPONENTS Interpreter Development QUIET)
 
 if("${Python_VERSION_MAJOR}" STREQUAL "3")
@@ -157,40 +156,17 @@ if(APPLE)
     set(PYZINC_ARCHITECTURE universal)
 endif()
 
-# Determine the next available Python developer version for the bindings.
-if(ZINC_RELEASE)
-    set(ZINC_PYTHON_DEVELOPER_VERSION "")
-else()
-    # This command will only work if you have the pypipackagemanagement installed into the
-    # Python environment in use.  To get this package use
-    #    pip install git+https://github.com/hsorby/pypipackagemanagement.git@v0.2.0#egg=pypipackagemanagement
-    execute_process(COMMAND ${Python_EXECUTABLE} -m pypipackagemanagement.pypiversionmanagement opencmiss.zinc 
-        OUTPUT_VARIABLE COMMAND_OUTPUT RESULT_VARIABLE COMMAND_RESULT ERROR_VARIABLE COMMAND_ERROR)
-    if (COMMAND_RESULT EQUAL 0)
-        # Strip command output to just have the developer version number
-        string(REGEX MATCH "\.dev[0-9]+" _MATCH ${COMMAND_OUTPUT})
-        if (_MATCH)
-            set(ZINC_PYTHON_DEVELOPER_VERSION ${_MATCH})
-        else ()
-            set(ZINC_PYTHON_DEVELOPER_VERSION ".dev00")
-        endif ()
-    else ()
-        set(ZINC_PYTHON_DEVELOPER_VERSION ".dev000")
-    endif ()
-endif()
-message(STATUS "ZINC_PYTHON_DEVELOPER_VERSION: ${ZINC_PYTHON_DEVELOPER_VERSION}")
-
 # Get a pretty system name.
 GET_SYSTEM_NAME(SYSTEM_NAME)
 set(PYPI_PACKAGE_NAME opencmiss.zinc)
-set(PYPI_SOURCE_TARGZ_VERSION "${Zinc_VERSION}${ZINC_PYTHON_DEVELOPER_VERSION}-${PYZINC_ARCHITECTURE}-${SYSTEM_NAME}-Python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
+set(PYPI_SOURCE_TARGZ_VERSION "${Zinc_VERSION}${Zinc_DEVELOPER_VERSION}-${PYZINC_ARCHITECTURE}-${SYSTEM_NAME}-Python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
 
 ################################################################
 # Generate the required package files
 set(ADDITIONAL_PACKAGE_FILES
     CHANGES.txt
     LICENSE.txt
-    README.txt
+    README.rst
     docs/main.rst)
 
 # 1. Configure stage

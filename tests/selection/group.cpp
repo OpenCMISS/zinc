@@ -1226,3 +1226,24 @@ TEST(ZincFieldNodeGroup, NodeiteratorInvalidation)
 	tmpNodeset = node[15].getNodeset();
 	EXPECT_FALSE(tmpNodeset.isValid());
 }
+
+// test bug in manager cleanup with active change cache which leads to
+// subgroup being removed from changed object list while it is iterated over
+TEST(ZincFieldGroup, fieldCleanupOrder)
+{
+	ZincTestSetupCpp zinc;
+
+	zinc.fm.beginChange();
+
+	Mesh mesh2d = zinc.fm.findMeshByDimension(2);
+	EXPECT_TRUE(mesh2d.isValid());
+
+	FieldGroup group = zinc.fm.createFieldGroup();
+	EXPECT_TRUE(group.isValid());
+	EXPECT_EQ(OK, group.setName("group"));
+	EXPECT_EQ(OK, group.setSubelementHandlingMode(FieldGroup::SUBELEMENT_HANDLING_MODE_FULL));
+	EXPECT_EQ(RESULT_OK, group.setManaged(true));
+
+	FieldElementGroup elementGroup = group.createFieldElementGroup(mesh2d);
+	EXPECT_TRUE(elementGroup.isValid());
+}

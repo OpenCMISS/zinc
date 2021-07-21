@@ -527,7 +527,7 @@ TEST(ZincFieldGradient, gradientOfGradient2)
 
 	Fieldcache fieldcache = zinc.fm.createFieldcache();
 	const double TOL0 = 1.0E-12;
-	const double TOL1 = 1.0E-9;
+	const double TOL1 = 1.0E-8;
 	const double TOL2 = 1.0E-7;
 	double xCentre[3];
 	double xOffset[3];

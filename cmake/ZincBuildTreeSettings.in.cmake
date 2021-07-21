@@ -5,6 +5,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 set(ZINC_INCLUDE_DIRS
-  "@PROJECT_SOURCE_DIR@/core/source/api"
-  "@PROJECT_BINARY_DIR@/core/source/api"
+  "@PROJECT_SOURCE_DIR@/src/api"
+  "@PROJECT_BINARY_DIR@/src/api"
 )

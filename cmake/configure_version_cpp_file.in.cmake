@@ -17,5 +17,5 @@ if (GIT_FOUND)
     git_get_revision(ZINC_REVISION_LONG WORKING_DIRECTORY "@CMAKE_CURRENT_SOURCE_DIR@")
 endif()
 
-configure_file("@CMAKE_CURRENT_SOURCE_DIR@/source/configure/version.cpp.cmake"
+configure_file("@CMAKE_CURRENT_SOURCE_DIR@/configure/version.cpp.cmake"
     "@ZINC_VERSION_STAGING_SRC@" @ONLY)
